@@ -2,6 +2,7 @@
  * This file is part of the libopencm3 project.
  *
  * Copyright (C) 2012 Felix Held <felix-libopencm3@felixheld.de>
+ * Copyright (C) 2013 Stefan Agner <stefan@agner.ch>
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -419,8 +420,15 @@
 
 /* --- Function prototypes ------------------------------------------------- */
 
+BEGIN_DECLS
 
-/* TODO */
+void sdio_reset(void);
+void sdio_power_on(void);
+void sdio_power_off(void);
+void sdio_set_clockdiv(u8 clkdiv);
+void sdio_enable_clock(void);
+void sdio_set_buswidth(u16 buswidth);
 
+END_DECLS
 
 #endif
