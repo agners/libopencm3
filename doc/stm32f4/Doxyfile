@@ -16,10 +16,12 @@
 WARN_LOGFILE           = doxygen_stm32f4.log
 
 INPUT                  = ../../include/libopencm3/license.dox \
+			 ../../include/libopencm3/stm32 \
 			 ../../include/libopencm3/stm32/f4 \
 			 ../../include/libopencm3/stm32/common
 
-INPUT                 += ../../lib/stm32/f4 \
+INPUT                 += ../../lib/stm32 \
+			 ../../lib/stm32/f4 \
 			 ../../lib/stm32/common
 
 EXCLUDE                =
