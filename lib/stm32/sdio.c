@@ -78,6 +78,7 @@ void sdio_power_on()
 /** @brief SDIO power off
 
 Disable card clock power.
+
  */
 void sdio_power_off()
 {
@@ -89,6 +90,8 @@ void sdio_power_off()
 
 Controls the output clock. The SDIO pheripherial is clocked with 48MHz, this is
 divided by (clkdiv + 2). For using MMC frequency must be less than 400kHz.
+
+@param[in] clkdiv unsigned int8. Clock divisor
  */
 void sdio_set_clockdiv(u8 clkdiv)
 {
@@ -110,9 +113,56 @@ void sdio_enable_clock()
 /** @brief SDIO set bus width
 
 Set bus width to be used to tranfer data. 1, 4 or 8 bit bus are supported.
+
+@param[in] buswidth unsigned int16. Data bus width. @ref sdio_widbus
  */
 void sdio_set_buswidth(u16 buswidth)
 {
         SDIO_CLKCR |= buswidth;
 }
+
+/*-----------------------------------------------------------------------------*/
+/** @brief SDIO data timeout
+
+Set the timeout counter in card bus clock periods. This timer must be loaded 
+with an appropriate value before starting a data transfer.
+
+@param[in] timeout unsigned int32. Timeout period in card bus clocks.
+ */
+void sdio_data_timeout(u32 timeout)
+{
+        SDIO_DTIMER = timeout;
+}
+
+/*-----------------------------------------------------------------------------*/
+/** @brief SDIO start a block data transfer
+
+Configures a data transfer
+
+@param[in] dlen unsigned int32. Data length (must be a multiple of blocksize!)
+@param[in] blocksize unsigned int8. Blocksize. @ref sdio_dblocksizea
+@param[in] datadir unsigned int8. Wheater to use dma or not. @ref sdio_data_direction
+@param[in] usedma unsigned int8. Wheater to use dma or not. @ref sdio_dma_enable
+ */
+void sdio_start_block_transfer(u32 dlen, u16 blocksize, u8 datadir, u8 usedma)
+{
+	u32 blockexp = blocksize >> SDIO_DCTRL_DBLOCKSIZE_SHIFT;
+	u32 regdctrl = SDIO_DCTRL & ~(SDIO_DCTRL_DBLOCKSIZE_MASK | SDIO_DCTRL_DTDIR_MASK | SDIO_DCTRL_DMA_MASK);
+
+	/* Make sure data length is a multiple of blocksize */
+	dlen = (dlen >> blockexp) << blockexp;
+
+	/* Set blocksize, data direction and DMA flag */
+	regdctrl |= blocksize;
+	regdctrl |= datadir;
+	regdctrl |= usedma;
+
+	/* Data length, which is now a multiple of blocksize for sure */
+	SDIO_DLEN = dlen;
+
+	/* Start transfer */
+        SDIO_DCTRL = regdctrl | SDIO_DCTRL_DTEN;
+}
+
+
 

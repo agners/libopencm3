@@ -1,3 +1,16 @@
+/** @defgroup sdio_defines SDIO Defines
+
+@brief <b>Defined Constants and Types for the STM32 SDIO</b>
+
+@ingroup STM32_defines
+
+@version 1.0.0
+
+@date 19 Mai 2013
+
+LGPL License Terms @ref lgpl_license
+ */
+
 /*
  * This file is part of the libopencm3 project.
  *
@@ -96,10 +109,15 @@
 
 /* WIDBUS: Wide bus mode enable bit */
 /* set the width of the data bus */
+/** @defgroup sdio_widbus SDIO data bus width
+@ingroup sdio_defines
+
+@{*/
 #define SDIO_CLKCR_WIDBUS_SHIFT		11
 #define SDIO_CLKCR_WIDBUS_1		(0x0 << SDIO_CLKCR_WIDBUS_SHIFT)
 #define SDIO_CLKCR_WIDBUS_4		(0x1 << SDIO_CLKCR_WIDBUS_SHIFT)
 #define SDIO_CLKCR_WIDBUS_8		(0x2 << SDIO_CLKCR_WIDBUS_SHIFT)
+/**@}*/
 
 /* BYPASS: Clock divider bypass enable bit */
 #define SDIO_CLKCR_BYPASS		(1 << 10)
@@ -184,6 +202,10 @@
 /* SDIO_DCTRL_DBLOCKSIZE_n
  * block size is 2**n bytes with 0<=n<=14
  */
+/** @defgroup sdio_dblocksize SDIO data block size
+@ingroup sdio_defines
+
+@{*/
 #define SDIO_DCTRL_DBLOCKSIZE_SHIFT	4
 #define SDIO_DCTRL_DBLOCKSIZE_0		(0x0 << SDIO_DCTRL_DBLOCKSIZE_SHIFT)
 #define SDIO_DCTRL_DBLOCKSIZE_1		(0x1 << SDIO_DCTRL_DBLOCKSIZE_SHIFT)
@@ -200,9 +222,18 @@
 #define SDIO_DCTRL_DBLOCKSIZE_12	(0xC << SDIO_DCTRL_DBLOCKSIZE_SHIFT)
 #define SDIO_DCTRL_DBLOCKSIZE_13	(0xD << SDIO_DCTRL_DBLOCKSIZE_SHIFT)
 #define SDIO_DCTRL_DBLOCKSIZE_14	(0xE << SDIO_DCTRL_DBLOCKSIZE_SHIFT)
+/**@}*/
+#define SDIO_DCTRL_DBLOCKSIZE_MASK	(0xF << SDIO_DCTRL_DBLOCKSIZE_SHIFT)
 
 /* DMAEN: DMA enable bit */
-#define SDIO_DCTRL_DMAEN		(1 << 3)
+/** @defgroup sdio_dma_enable SDIO dma enable
+@ingroup sdio_defines
+
+@{*/
+#define SDIO_DCTRL_DMA_ENABLE		(1 << 3)
+#define SDIO_DCTRL_DMA_DISABLE		(0 << 3)
+/**@}*/
+#define SDIO_DCTRL_DMA_MASK		(1 << 3)
 
 /* DTMODE: Data transfer mode selection 1: Stream or SDIO multi byte transfer */
 #define SDIO_DCTRL_DTMODE		(1 << 2)
@@ -211,7 +242,14 @@
 /* 0: From controller to card.
  * 1: From card to controller.
  */
-#define SDIO_DCTRL_DTDIR		(1 << 1)
+/** @defgroup sdio_data_direction SDIO data direction
+@ingroup sdio_defines
+
+@{*/
+#define SDIO_DCTRL_DTDIR_CTRL_TO_CARD	(0 << 1)
+#define SDIO_DCTRL_DTDIR_CARD_TO_CTRL	(1 << 1)
+/**@}*/
+#define SDIO_DCTRL_DTDIR_MASK		(1 << 1)
 
 /* DTEN: Data transfer enabled bit */
 #define SDIO_DCTRL_DTEN			(1 << 0)
@@ -427,6 +465,8 @@ void sdio_power_off(void);
 void sdio_set_clockdiv(u8 clkdiv);
 void sdio_enable_clock(void);
 void sdio_set_buswidth(u16 buswidth);
+void sdio_data_timeout(u32 timeout);
+void sdio_start_block_transfer(u32 dlen, u16 blocksize, u8 datadir, u8 usedma);
 
 END_DECLS
 
