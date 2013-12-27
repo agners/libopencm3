@@ -93,7 +93,7 @@ divided by (clkdiv + 2). For using MMC frequency must be less than 400kHz.
 
 @param[in] clkdiv unsigned int8. Clock divisor
  */
-void sdio_set_clockdiv(u8 clkdiv)
+void sdio_set_clockdiv(uint8_t clkdiv)
 {
         SDIO_CLKCR |= (SDIO_CLKCR_CLKDIV_MSK & clkdiv);
 }
@@ -116,7 +116,7 @@ Set bus width to be used to tranfer data. 1, 4 or 8 bit bus are supported.
 
 @param[in] buswidth unsigned int16. Data bus width. @ref sdio_widbus
  */
-void sdio_set_buswidth(u16 buswidth)
+void sdio_set_buswidth(uint16_t buswidth)
 {
         SDIO_CLKCR |= buswidth;
 }
@@ -129,7 +129,7 @@ with an appropriate value before starting a data transfer.
 
 @param[in] timeout unsigned int32. Timeout period in card bus clocks.
  */
-void sdio_data_timeout(u32 timeout)
+void sdio_data_timeout(uint32_t timeout)
 {
         SDIO_DTIMER = timeout;
 }
@@ -144,10 +144,10 @@ Configures a data transfer
 @param[in] datadir unsigned int8. Wheater to use dma or not. @ref sdio_data_direction
 @param[in] usedma unsigned int8. Wheater to use dma or not. @ref sdio_dma_enable
  */
-void sdio_start_block_transfer(u32 dlen, u16 blocksize, u8 datadir, u8 usedma)
+void sdio_start_block_transfer(uint32_t dlen, uint16_t blocksize, uint8_t datadir, bool usedma)
 {
-	u32 blockexp = blocksize >> SDIO_DCTRL_DBLOCKSIZE_SHIFT;
-	u32 regdctrl = SDIO_DCTRL & ~(SDIO_DCTRL_DBLOCKSIZE_MASK | SDIO_DCTRL_DTDIR_MASK | SDIO_DCTRL_DMA_MASK);
+	uint32_t blockexp = blocksize >> SDIO_DCTRL_DBLOCKSIZE_SHIFT;
+	uint32_t regdctrl = SDIO_DCTRL & ~(SDIO_DCTRL_DBLOCKSIZE_MASK | SDIO_DCTRL_DTDIR_MASK | SDIO_DCTRL_DMA_MASK);
 
 	/* Make sure data length is a multiple of blocksize */
 	dlen = (dlen >> blockexp) << blockexp;

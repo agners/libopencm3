@@ -463,11 +463,11 @@ BEGIN_DECLS
 void sdio_reset(void);
 void sdio_power_on(void);
 void sdio_power_off(void);
-void sdio_set_clockdiv(u8 clkdiv);
+void sdio_set_clockdiv(uint8_t clkdiv);
 void sdio_enable_clock(void);
-void sdio_set_buswidth(u16 buswidth);
-void sdio_data_timeout(u32 timeout);
-void sdio_start_block_transfer(u32 dlen, u16 blocksize, u8 datadir, u8 usedma);
+void sdio_set_buswidth(uint16_t buswidth);
+void sdio_data_timeout(uint32_t timeout);
+void sdio_start_block_transfer(uint32_t dlen, uint16_t blocksize, uint8_t datadir, bool usedma);
 
 END_DECLS
 
