@@ -155,7 +155,8 @@ void sdio_start_block_transfer(uint32_t dlen, uint16_t blocksize, uint8_t datadi
 	/* Set blocksize, data direction and DMA flag */
 	regdctrl |= blocksize;
 	regdctrl |= datadir;
-	regdctrl |= usedma;
+	if (usedma)
+		regdctrl |= SDIO_DCTRL_DMA_ENABLE;
 
 	/* Data length, which is now a multiple of blocksize for sure */
 	SDIO_DLEN = dlen;
